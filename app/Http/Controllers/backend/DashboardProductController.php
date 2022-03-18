@@ -4,6 +4,8 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardProductController extends Controller
 {
@@ -13,8 +15,11 @@ class DashboardProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('backend.pages_b.dashboard-product');
+    {   
+        $product = Product::with(['gallaries', 'category'])
+        ->where('users_id', Auth::user()->id)
+        ->get();
+        return view('backend.pages_b.dashboard-product', compact('product'));
     }
 
     public function detail(){
