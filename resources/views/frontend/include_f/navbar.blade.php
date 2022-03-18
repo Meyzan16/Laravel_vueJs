@@ -66,19 +66,19 @@
                 Hi, {{ Auth::user()->name }}
                 </a>
                 <div class="dropdown-menu">
-                <a href="{{ route('dashboard') }}" class="dropdown-item"> Dashboard</a>
-                <a href="{{ route('dashboard-setting-account') }}" class="dropdown-item"
-                    >Settings
-                    </a>
+                    <a href="{{ route('dashboard') }}" class="dropdown-item"> Dashboard</a>
+                    <a href="{{ route('dashboard-setting-account') }}" class="dropdown-item"
+                        >Settings
+                        </a>
 
-                <div class="dropdown-divider"></div>
-                    <a href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();" class="dropdown-item">Logout</a> 
-                    
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none">
-                      @csrf
-                    </form>
+                    <div class="dropdown-divider"></div>
+                        <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();" class="dropdown-item">Logout</a> 
+                        
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none">
+                          @csrf
+                        </form>
                 </div>
             </li>
 
@@ -102,7 +102,7 @@
             <ul class="navbar-nav d-block d-lg-none">
             <li class="nav-item">
                 <a href="#" class="nav-link">
-                Hi,Angga
+                  HI, {{ Auth::user()->name }}
                 </a>
             </li>
             <li class="nav-item">
