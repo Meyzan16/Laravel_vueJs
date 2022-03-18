@@ -58,41 +58,45 @@ class CheckoutController extends Controller
         // // Set 3DS transaction for credit card to true
         // Config::$is3ds = config('services.midtrans.is3ds');
 
-        \Midtrans\Config::$serverKey = 'Mid-server-RwOC3nQcAAkLTXUsXs02NgaV';
-        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        \Midtrans\Config::$isProduction = false;
-        // Set sanitization on (default)
-        \Midtrans\Config::$isSanitized = true;
-        // Set 3DS transaction for credit card to true
-        \Midtrans\Config::$is3ds = true;
+        // \Midtrans\Config::$serverKey = 'Mid-server-RwOC3nQcAAkLTXUsXs02NgaV';
+        // // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        // \Midtrans\Config::$isProduction = false;
+        // // Set sanitization on (default)
+        // \Midtrans\Config::$isSanitized = true;
+        // // Set 3DS transaction for credit card to true
+        // \Midtrans\Config::$is3ds = true;
 
-        //buat array untuk di kirim ke midtrans
-        $midtrans = [
-            'transaction_details' => [
-                'order_id' => $kode_transaction,
-                'gross_amount' => (int) $request->total_price,
-            ],
-            'customer_details' => [
-                'first_name' => Auth::user()->name,
-                'email' => Auth::user()->email,
-            ],
-            'enable_payments' => [
-                'gopay', 'bank_transfer' , 'permata_va'
-            ],
-            'vtweb' => []
-        ];
+        // //buat array untuk di kirim ke midtrans
+        // $midtrans = [
+        //     'transaction_details' => [
+        //         'order_id' => $kode_transaction,
+        //         'gross_amount' => (int) $request->total_price,
+        //     ],
+        //     'customer_details' => [
+        //         'first_name' => Auth::user()->name,
+        //         'email' => Auth::user()->email,
+        //     ],
+        //     'enable_payments' => [
+        //         'gopay', 'bank_transfer' , 'permata_va'
+        //     ],
+        //     'vtweb' => []
+        // ];
 
+
+        // try {
+        //     // Get Snap Payment Page URL
+        //     $paymentUrl = \Midtrans\Snap::createTransaction($midtrans)->redirect_url;
+        //     // Redirect to Snap Payment Page
+        //     return redirect($paymentUrl);
+        // }
+        //   catch (Exception $e) {
+        //     echo $e->getMessage();
+        //   }
         
+        //Delete Card data
+        Cart::where('users_id', Auth::user()->id)->delete();
 
-        try {
-            // Get Snap Payment Page URL
-            $paymentUrl = \Midtrans\Snap::createTransaction($midtrans)->redirect_url;
-            // Redirect to Snap Payment Page
-            return redirect($paymentUrl);
-        }
-          catch (Exception $e) {
-            echo $e->getMessage();
-          }
+        return redirect()->back();
 
 
     }

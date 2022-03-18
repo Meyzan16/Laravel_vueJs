@@ -28,4 +28,10 @@ class transaction extends Model
         'remember_token',
     ];
 
+    public function user()
+    {                                      
+        //ditambahkan id di belakang
+        return $this->belongsTo(User::class, 'users_id');
+    }
+
 }

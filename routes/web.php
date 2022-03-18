@@ -40,20 +40,19 @@ use App\Http\Controllers\Auth\LoginController;
 
 //homepage
 Route::get('/', [HomeController::Class, 'index'] )->name('home');
+
 Route::get('/categories', [CategoryController::Class, 'index'] )->name('categories');
 Route::get('/categories/{id}', [CategoryController::Class, 'detail'] )->name('categories-detail');
+
 Route::get('/detail/{slug}', [DetailController::Class, 'index'] )->name('detail');
 Route::POST('/detail/{slug}', [DetailController::Class, 'add'] )->name('detail-add-cart');
 
-Route::get('/cart', [CartController::Class, 'index'] )->name('cart');
-Route::DELETE('/cart/{id}', [CartController::Class, 'delete'] )->name('cart-delete');
-Route::get('/success', [CartController::Class, 'success'] )->name('success');
-
 
 //checkout
-Route::POST('/checkout', [CheckoutController::Class, 'process'] )->name('checkout');
+
 Route::POST('/checkout/callback', [CheckoutController::Class, 'callback'] )->name('midtrans-callback');
 
+Route::get('/success', [CartController::Class, 'success'] )->name('success');
 
 
 // AUTH
@@ -66,21 +65,31 @@ Route::POST('/authenticate', [LoginController::Class, 'authenticate'] )->name('a
 Route::POST('/logout', [LoginController::Class, 'logout'] )->name('logout');
 
 
-//reseller
-Route::get('/dashboard', [DashboardController::Class, 'index'] )->name('dashboard');
-Route::get('/dashboard/products', [DashboardProductController::Class, 'index'] )->name('dashboard-product');
-Route::get('/dashboard/products/create', [DashboardProductController::Class, 'create'] )->name('dashboard-product-create');    
-Route::get('/dashboard/products/{id}', [DashboardProductController::Class, 'detail'] )->name('dashboard-product-detail');
 
-Route::get('/dashboard/transactions', [DashboardTransactionsController::Class, 'index'] )->name('dashboard-transactions');
-Route::get('/dashboard/transactions/{id}', [DashboardTransactionsController::Class, 'detail'] )->name('dashboard-transactions-detail');
 
-Route::get('/dashboard/setting', [DashboardSettingController::Class, 'index'] )->name('dashboard-setting');
-Route::get('/dashboard/account', [DashboardSettingController::Class, 'account'] )->name('dashboard-setting-account');
+Route::group(['middleware' => ['auth'] ], function(){
+    Route::get('/cart', [CartController::Class, 'index'] )->name('cart');
+    Route::DELETE('/cart/{id}', [CartController::Class, 'delete'] )->name('cart-delete');
+    Route::POST('/checkout', [CheckoutController::Class, 'process'] )->name('checkout');
+
+    //reseller
+    Route::get('/dashboard', [DashboardController::Class, 'index'] )->name('dashboard');
+    Route::get('/dashboard/products', [DashboardProductController::Class, 'index'] )->name('dashboard-product');
+    Route::get('/dashboard/products/create', [DashboardProductController::Class, 'create'] )->name('dashboard-product-create');    
+    Route::get('/dashboard/products/{id}', [DashboardProductController::Class, 'detail'] )->name('dashboard-product-detail');
+
+    Route::get('/dashboard/transactions', [DashboardTransactionsController::Class, 'index'] )->name('dashboard-transactions');
+    Route::get('/dashboard/transactions/{id}', [DashboardTransactionsController::Class, 'detail'] )->name('dashboard-transactions-detail');
+
+    Route::get('/dashboard/setting', [DashboardSettingController::Class, 'index'] )->name('dashboard-setting');
+    Route::get('/dashboard/account', [DashboardSettingController::Class, 'account'] )->name('dashboard-setting-account');
+
+});
 
 
 //fungsi prefix untuk memanggil satu kesatuan // ADMIN
-Route::prefix('admin')->namespace('')->group(function(){
+Route::prefix('admin')->namespace('')
+    ->group(function(){
     Route::get('/', [DashboardAdminController::Class, 'index'])->name('dashboard-admin'); 
     Route::resource('category', CategoryAdminController::class);
     Route::resource('user', UserAdminController::class);
