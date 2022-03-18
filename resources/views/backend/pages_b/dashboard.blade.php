@@ -20,7 +20,7 @@
                   Customer
                 </div>
                 <div class="dashboard-card-subtitle">
-                  15,890
+                  {{ number_format($customer) }}
                 </div>
               </div>
             </div>
@@ -33,7 +33,7 @@
                   Revenue
                 </div>
                 <div class="dashboard-card-subtitle">
-                  15,890
+                  {{ number_format($revenue) }}
                 </div>
               </div>
             </div>
@@ -46,7 +46,7 @@
                   Transaction
                 </div>
                 <div class="dashboard-card-subtitle">
-                  15,890
+                  {{ number_format($transaction_count) }}
                 </div>
               </div>
             </div>
@@ -58,71 +58,34 @@
             <h5 class="mb-3">
               Recent Transaction
             </h5>
-            <a href="/dashboard-transactions-detail.html" class="card card-list d-block">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-1">
-                    <img src="/images/dashboard-icon.png" alt="">
-                  </div>
-                  <div class="col-md-4">
-                    Shirup Mezan
-                  </div>
-                  <div class="col-md-3">
-                    Meyzan Al Yutra
-                  </div>
-                  <div class="col-md-3">
-                    12 Januari,20
-                  </div>
-                  <div class="col-md-1 d-md-block d-none">
-                    <img src="/images/dashboard-panah.svg" alt="">
+            @foreach ($transaction_data as $data)
+              <a href="{{ route('dashboard-transactions-detail', $data->id) }}" class="card card-list d-block">
+                <div class="card-body">
+                  <div class="row">
+                        <div class="col-md-1">
+                          <img src="{{ Storage::url($data->product->gallaries->first()->photos ?? '') }}" 
+                          class="w-100 img-thumbnail">
+                        </div>
+                        <div class="col-md-4">
+                          {{ $data->product->name ?? '' }}
+                        </div>
+                        <div class="col-md-3">
+                          {{ $data->transaction->user->name ?? '' }}
+                        </div>
+                        <div class="col-md-3">
+                          {{ $data->created_at ?? '' }}
+                        </div>
+                        <div class="col-md-1 d-md-block d-none">
+                          <img src="/images/dashboard-panah.svg" class="w-20 img-thumbnail">
+                        </div>
                   </div>
                 </div>
-              </div>
-            </a>
+              </a>
+                
+            @endforeach
 
-            <a href="/dashboard-transactions-detail.html" class="card card-list d-block">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-1">
-                    <img src="/images/dashboard-icon.png" alt="">
-                  </div>
-                  <div class="col-md-4">
-                    Shirup Mezan
-                  </div>
-                  <div class="col-md-3">
-                    Meyzan Al Yutra
-                  </div>
-                  <div class="col-md-3">
-                    12 Januari,20
-                  </div>
-                  <div class="col-md-1 d-md-block d-none">
-                    <img src="/images/dashboard-panah.svg" alt="">
-                  </div>
-                </div>
-              </div>
-            </a>
 
-            <a href="/dashboard-transactions-detail.html" class="card card-list d-block">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-1">
-                    <img src="/images/dashboard-icon.png" alt="">
-                  </div>
-                  <div class="col-md-4">
-                    Shirup Mezan
-                  </div>
-                  <div class="col-md-3">
-                    Meyzan Al Yutra
-                  </div>
-                  <div class="col-md-3">
-                    12 Januari,20
-                  </div>
-                  <div class="col-md-1 d-md-block d-none">
-                    <img src="/images/dashboard-panah.svg" alt="">
-                  </div>
-                </div>
-              </div>
-            </a>
+           
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class transaction extends Model
 {
@@ -31,7 +32,7 @@ class transaction extends Model
     public function user()
     {                                      
         //ditambahkan id di belakang
-        return $this->belongsTo(User::class, 'users_id');
+        return $this->belongsTo(User::class, 'users_id' , 'id');
     }
 
 }
